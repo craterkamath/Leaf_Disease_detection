@@ -165,6 +165,7 @@ while True:
 		sift_img_with_keypoints = cv2.drawKeypoints(cropped_image,sift_keypoints,None,(255, 0, 0),4)
 
 		cv2.imshow("SIFT Keypoints", sift_img_with_keypoints)
+
 		cv2.waitKey(0)
 
 
