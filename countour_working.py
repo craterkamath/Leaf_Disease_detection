@@ -8,6 +8,7 @@ from skimage.filters import gaussian
 import morphsnakes as ms
 from imageio import imread
 from pprint import pprint
+from skimage.transform import resize
 
 drawing = False
 
@@ -80,11 +81,17 @@ refPt = []
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--image", required=True, help="Path to the image")
+ap.add_argument("-t", "--transform", help = "Do you want resizing?", action = "store_true")
+ap.add_argument("-r", "--resize", help = "Resizes the image into a x b x 3", type = int, nargs = 2 , default = [256, 256])
 args = vars(ap.parse_args())
 
+IMG_SIZE = (args['resize'][0],args['resize'][1] ,3)
+GRAY_IMAGE_SIZE = (256, 256)
 
 # load the image, clone it, and setup the mouse callback function
 image = cv2.imread(args["image"])
+if args["transform"]:
+	image = resize(image, IMG_SIZE)
 clone = image.copy()
 cv2.namedWindow("image")
 cv2.setMouseCallback("image", click_and_crop)
@@ -103,7 +110,12 @@ while True:
 
 		cv2.destroyAllWindows()
 
-		imgcolor = imread(args['image']) / 255.0
+		input_image = imread(args['image'])
+
+		if args["transform"]:
+			input_image = resize(input_image, IMG_SIZE , preserve_range = True)
+
+		imgcolor = input_image / 255.0
 		img = rgb2gray(imgcolor)
 
 		gimg = ms.inverse_gaussian_gradient(img, alpha=1000, sigma=2)
@@ -116,9 +128,9 @@ while True:
 		callback = visual_callback_2d(imgcolor)
 
 		# MorphGAC.
-		final_level_set = ms.morphological_geodesic_active_contour(gimg, iterations=100,
+		final_level_set = ms.morphological_geodesic_active_contour(gimg, iterations=10000,
 												 init_level_set=init_ls,
-												 smoothing=2, threshold=0.3,
+												 smoothing=3, threshold=0.4,
 												 balloon=-1, iter_callback=callback)
 		
 		plt.close('all')
@@ -131,7 +143,13 @@ while True:
 		# cv2.imshow("Final Mask", final_level_set * 255.)
 		# cv2.waitKey(0)
 
-		cv_image = cv2.cvtColor(np.array(imread(args['image']), dtype = np.uint8), cv2.COLOR_RGB2BGR)
+		input_image = imread(args['image'])
+
+		if args["transform"]:
+
+			input_image = resize(input_image, IMG_SIZE, preserve_range = True)
+
+		cv_image = cv2.cvtColor(np.array( input_image, dtype = np.uint8), cv2.COLOR_RGB2BGR)
 
 		src_mask = cv2.cvtColor(mask,cv2.COLOR_GRAY2BGR)
 		mask_out = cv2.subtract(src_mask, np.array(cv_image, dtype = np.uint8))
@@ -181,7 +199,8 @@ while True:
 		# cv2.waitKey(0)
 
 
-
+		import pdb
+		# pdb.set_trace()
 
 		break
 
