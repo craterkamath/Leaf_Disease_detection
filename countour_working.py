@@ -169,6 +169,7 @@ while True:
 		img_with_keypoints = cv2.drawKeypoints(cropped_image,surf_key_points,None,(255,0,0),4)
 		
 		cv2.imshow("SURF Keypoints", img_with_keypoints)
+		cv2.imwrite("surf_keypoints{0}.png".format(args["image"].split(".")[0].split("/")[-1]), img_with_keypoints)
 
 
 		if(cv2.__version__[0] == '3'):
@@ -183,6 +184,7 @@ while True:
 		sift_img_with_keypoints = cv2.drawKeypoints(cropped_image,sift_keypoints,None,(255, 0, 0),4)
 
 		cv2.imshow("SIFT Keypoints", sift_img_with_keypoints)
+		cv2.imwrite("sift_keypoints{0}.png".format(args["image"].split(".")[0].split("/")[-1]), sift_img_with_keypoints)
 
 		cv2.waitKey(0)
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 
 """
 ====================
@@ -37,19 +36,7 @@ preceding processing. This makes **MorphACWE** easier to use and tune than
 References
 ----------
 
-.. [1] A Morphological Approach to Curvature-based Evolution of Curves and
-       Surfaces, Pablo Márquez-Neila, Luis Baumela and Luis Álvarez. In IEEE
-       Transactions on Pattern Analysis and Machine Intelligence (PAMI),
-       2014, DOI 10.1109/TPAMI.2013.106
-.. [2] Geodesic Active Contours, Vicent Caselles, Ron Kimmel and Guillermo
-       Sapiro. In International Journal of Computer Vision (IJCV), 1997,
-       DOI:10.1023/A:1007979827043
-.. [3] Active Contours without Edges, Tony Chan and Luminita Vese. In IEEE
-       Transactions on Image Processing, 2001, DOI:10.1109/83.902291
-
 """
-__author__ = "P. Márquez Neila <p.mneila@upm.es>"
-
 
 from itertools import cycle
 
@@ -61,7 +48,7 @@ __all__ = ['morphological_chan_vese',
            'inverse_gaussian_gradient',
            'circle_level_set',
            'checkerboard_level_set'
-          ]
+           ]
 
 
 __version__ = (2, 0, 1)
@@ -236,14 +223,6 @@ def checkerboard_level_set(image_shape, square_size=5):
 def inverse_gaussian_gradient(image, alpha=100.0, sigma=5.0):
     """Inverse of gradient magnitude.
 
-    Compute the magnitude of the gradients in the image and then inverts the
-    result in the range [0, 1]. Flat areas are assigned values close to 1,
-    while areas close to borders are assigned values close to 0.
-
-    This function or a similar one defined by the user should be applied over
-    the image as a preprocessing step before calling
-    `morphological_geodesic_active_contour`.
-
     Parameters
     ----------
     image : (M, N) or (L, M, N) array
@@ -329,12 +308,6 @@ def morphological_chan_vese(image, iterations, init_level_set='checkerboard',
 
     The algorithm and its theoretical derivation are described in [1]_.
 
-    References
-    ----------
-    .. [1] A Morphological Approach to Curvature-based Evolution of Curves and
-           Surfaces, Pablo Márquez-Neila, Luis Baumela, Luis Álvarez. In IEEE
-           Transactions on Pattern Analysis and Machine Intelligence (PAMI),
-           2014, DOI 10.1109/TPAMI.2013.106
     """
 
     init_level_set = _init_level_set(init_level_set, image.shape)
@@ -445,10 +418,7 @@ def morphological_geodesic_active_contour(gimage, iterations,
 
     References
     ----------
-    .. [1] A Morphological Approach to Curvature-based Evolution of Curves and
-           Surfaces, Pablo Márquez-Neila, Luis Baumela, Luis Álvarez. In IEEE
-           Transactions on Pattern Analysis and Machine Intelligence (PAMI),
-           2014, DOI 10.1109/TPAMI.2013.106
+  
     """
 
     image = gimage
@@ -490,7 +460,6 @@ def morphological_geodesic_active_contour(gimage, iterations,
         u[aux > 0] = 1
         u[aux < 0] = 0
 
-
         # Smoothing
         for _ in range(smoothing):
             u = _curvop(u)
@@ -498,7 +467,7 @@ def morphological_geodesic_active_contour(gimage, iterations,
         iter_callback(u)
 
         # np.set_printoptions(threshold='nan')
-        
+
         curent_mean = np.mean(u != temp_u)
 
         if(abs(curent_mean - previous_mean) < 0.0001):
