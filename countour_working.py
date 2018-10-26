@@ -1,14 +1,22 @@
 import argparse
+from imageio import imread
+
+
 import cv2
 import numpy as np
+
 import skimage as sk
 from skimage.segmentation import morphological_geodesic_active_contour as mgac
-import matplotlib.pyplot as plt
 from skimage.filters import gaussian
-import morphsnakes as ms
-from imageio import imread
-from pprint import pprint
 from skimage.transform import resize
+
+
+import matplotlib.pyplot as plt
+import morphsnakes as ms
+from pprint import pprint
+
+from feature_aggregation import BagOfWords, LLC, FisherVectors, Vlad
+
 
 drawing = False
 
@@ -69,6 +77,8 @@ def visual_callback_2d(background, fig=None):
 		ax_u.set_data(levelset)
 		fig.canvas.draw()
 		plt.pause(0.001)
+
+		plt.savefig("contour_images/contour_{0}.png".format(args["image"].split(".")[0].split("/")[-1]))
 
 	return callback
 
@@ -188,21 +198,19 @@ while True:
 
 		cv2.waitKey(0)
 
-
-
-
 		cv2.destroyAllWindows()
-
-
-
 
 
 		# cv2.imshow("Cropped Image", image_out)
 		# cv2.waitKey(0)
 
 
-		import pdb
+		# import pdb
 		# pdb.set_trace()
+		
+		
+		
+
 
 		break
 
