@@ -144,7 +144,7 @@ while True:
 												 balloon=-1, iter_callback=callback)
 		
 		plt.close('all')
-		plt.imsave("output.png", final_level_set)
+		plt.imsave("contour_images/output.png", final_level_set)
 
 		# np.set_printoptions(threshold='nan')
 
@@ -179,7 +179,7 @@ while True:
 		img_with_keypoints = cv2.drawKeypoints(cropped_image,surf_key_points,None,(255,0,0),4)
 		
 		cv2.imshow("SURF Keypoints", img_with_keypoints)
-		cv2.imwrite("surf_keypoints{0}.png".format(args["image"].split(".")[0].split("/")[-1]), img_with_keypoints)
+		cv2.imwrite("keypoints/surf_keypoints{0}.png".format(args["image"].split(".")[0].split("/")[-1]), img_with_keypoints)
 
 
 		if(cv2.__version__[0] == '3'):
@@ -194,22 +194,20 @@ while True:
 		sift_img_with_keypoints = cv2.drawKeypoints(cropped_image,sift_keypoints,None,(255, 0, 0),4)
 
 		cv2.imshow("SIFT Keypoints", sift_img_with_keypoints)
-		cv2.imwrite("sift_keypoints{0}.png".format(args["image"].split(".")[0].split("/")[-1]), sift_img_with_keypoints)
+		cv2.imwrite("keypoints/sift_keypoints{0}.png".format(args["image"].split(".")[0].split("/")[-1]), sift_img_with_keypoints)
 
 		cv2.waitKey(0)
 
 		cv2.destroyAllWindows()
-
-
-		# cv2.imshow("Cropped Image", image_out)
-		# cv2.waitKey(0)
-
-
-		# import pdb
-		# pdb.set_trace()
 		
+		# Aggregate those features 
 		
-		
+
+		# SIFT descriptors
+
+		import pdb 
+		pdb.set_trace()
+
 
 
 		break
