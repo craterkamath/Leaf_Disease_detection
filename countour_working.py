@@ -202,11 +202,31 @@ while True:
 		
 		# Aggregate those features 
 		
+		run_cluster = 3
+
+		if run_cluster == 1:
+			print "Running Bag of Visual Words"
+			bow = BagOfWords(10)
+			for i in range(2):
+			    for j in range(0, len(sift_descriptors), 20):
+			        bow.partial_fit(sift_descriptors[j:j+20])
+			faces_bow = bow.transform([sift_descriptors])
+
+		elif run_cluster == 2:
+		    print "Running Vlad"
+		    vlad = Vlad(10)
+
+		    for i in range(2):
+		        for j in range(0,len(sift_descriptors), 10):
+		            vlad.partial_fit(sift_descriptors[j:j+10])
+
+		    faces_vlad = vlad.transform(np.array([sift_descriptors]))
+
 
 		# SIFT descriptors
 
-		import pdb 
-		pdb.set_trace()
+		# import pdb 
+		# pdb.set_trace()
 
 
 
