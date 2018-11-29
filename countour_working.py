@@ -15,6 +15,10 @@ import matplotlib.pyplot as plt
 import morphsnakes as ms
 from pprint import pprint
 
+import warnings
+
+# warnings.filter("ignore")
+
 from feature_aggregation import BagOfWords, LLC, FisherVectors, Vlad
 
 
@@ -202,7 +206,7 @@ while True:
 		
 		# Aggregate those features 
 		
-		run_cluster = 3
+		run_cluster = 1
 
 		if run_cluster == 1:
 			print "Running Bag of Visual Words"
@@ -225,10 +229,8 @@ while True:
 
 		# SIFT descriptors
 
-		# import pdb 
-		# pdb.set_trace()
-
-
+		import pdb 
+		pdb.set_trace()
 
 		break
 
